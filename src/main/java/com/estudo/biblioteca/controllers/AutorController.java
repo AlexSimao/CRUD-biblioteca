@@ -15,6 +15,8 @@ import com.estudo.biblioteca.dtos.AutorDTO;
 import com.estudo.biblioteca.entities.Autor;
 import com.estudo.biblioteca.repositories.AutorRepository;
 import com.estudo.biblioteca.services.AutorService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping(value = "/autor")
@@ -42,6 +44,12 @@ public class AutorController {
 
     AutorDTO result = autorService.findById(id);
     return ResponseEntity.status(HttpStatus.OK).body(result);
+  }
+
+  @PostMapping()
+  public ResponseEntity<AutorDTO> createAutor(@RequestBody AutorDTO autorDTO) {
+    var result = autorService.createAutor(autorDTO);
+    return ResponseEntity.status(HttpStatus.CREATED).body(result);
   }
 
 }
