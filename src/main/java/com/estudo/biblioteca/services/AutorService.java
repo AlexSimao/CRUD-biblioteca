@@ -25,6 +25,13 @@ public class AutorService {
     return entity;
   }
 
+  private Autor update(long id, AutorDTO autorDTO) {
+
+    Autor entity = toEntity(autorDTO);
+    entity.setId(id);
+    return entity;
+  }
+
   @Transactional(readOnly = true)
   public List<AutorDTO> getAll() {
     List<Autor> result = autorRepository.findAll();
@@ -44,6 +51,14 @@ public class AutorService {
   @Transactional
   public AutorDTO createAutor(@RequestBody AutorDTO autorDTO) {
     Autor entity = toEntity(autorDTO);
+    Autor result = autorRepository.save(entity);
+    AutorDTO dto = new AutorDTO(result);
+    return dto;
+  }
+
+  @Transactional
+  public AutorDTO updateAutor(@PathVariable long id, @RequestBody AutorDTO autorDTO) {
+    Autor entity = update(id, autorDTO);
     Autor result = autorRepository.save(entity);
     AutorDTO dto = new AutorDTO(result);
     return dto;
