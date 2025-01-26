@@ -26,7 +26,6 @@ public class AutorService {
   }
 
   private Autor update(long id, AutorDTO autorDTO) {
-
     Autor entity = toEntity(autorDTO);
     entity.setId(id);
     return entity;
@@ -61,6 +60,14 @@ public class AutorService {
     Autor entity = update(id, autorDTO);
     Autor result = autorRepository.save(entity);
     AutorDTO dto = new AutorDTO(result);
+    return dto;
+  }
+
+  @Transactional
+  public List<AutorDTO> deleteAutor(@PathVariable long id) {
+    autorRepository.deleteById(id);
+    List<Autor> result = autorRepository.findAll();
+    List<AutorDTO> dto = result.stream().map(AutorDTO::new).toList();
     return dto;
   }
 
