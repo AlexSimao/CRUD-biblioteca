@@ -7,7 +7,7 @@ public class LivroDTO {
 
   private Long id;
   private String titulo;
-  private Autor autorId;
+  private Autor autor;
   private String ano_publicacao;
 
   LivroDTO() {
@@ -17,7 +17,7 @@ public class LivroDTO {
   public LivroDTO(Livro entity) {
     this.id = entity.getId();
     this.titulo = entity.getTitulo();
-    this.autorId = entity.getAutorId();
+    this.autor = entity.getAutor();
     this.ano_publicacao = entity.getAno_publicacao();
   }
 
@@ -37,12 +37,12 @@ public class LivroDTO {
     this.titulo = titulo;
   }
 
-  public Autor getAutorId() {
-    return autorId;
+  public Autor getAutor() {
+    return autor;
   }
 
-  public void setAutorId(Autor autorId) {
-    this.autorId = autorId;
+  public void setAutor(Autor autor) {
+    this.autor = autor;
   }
 
   public String getAno_publicacao() {

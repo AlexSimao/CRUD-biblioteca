@@ -18,18 +18,17 @@ public class Livro {
 
   @ManyToOne()
   @JoinColumn(name = "autor_id")
-  private Autor autor_id;
+  private Autor autor;
   private String ano_publicacao;
 
   public Livro() {
 
   }
 
-  public Livro(Long id, String titulo, Autor autor_id, String ano_publicacao) {
+  public Livro(Long id, String titulo, Autor autor, String ano_publicacao) {
     this.id = id;
     this.titulo = titulo;
-
-    this.autor_id = autor_id;
+    this.autor = autor;
     this.ano_publicacao = ano_publicacao;
   }
 
@@ -49,12 +48,12 @@ public class Livro {
     this.titulo = titulo;
   }
 
-  public Autor getAutorId() {
-    return autor_id;
+  public Autor getAutor() {
+    return autor;
   }
 
-  public void setAutorId(Autor autor_id) {
-    this.autor_id = autor_id;
+  public void setAutor(Autor autor) {
+    this.autor = autor;
   }
 
   public String getAno_publicacao() {
