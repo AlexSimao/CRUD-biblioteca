@@ -10,7 +10,7 @@ public class LivroDTO {
   private Autor autor;
   private String ano_publicacao;
 
-  LivroDTO() {
+  public LivroDTO() {
 
   }
 

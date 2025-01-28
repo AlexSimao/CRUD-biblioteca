@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.estudo.biblioteca.entities.Autor;
 
 public interface AutorRepository extends JpaRepository<Autor, Long> {
-
+  Autor findByNome(String nome);
 }
