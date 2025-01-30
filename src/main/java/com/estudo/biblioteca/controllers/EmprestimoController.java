@@ -36,6 +36,12 @@ public class EmprestimoController {
     return ResponseEntity.ok(result);
   }
 
+  @GetMapping(value = "/ativos")
+  public ResponseEntity<List<EmprestimoDTO>> emprestimoAtivo() {
+    List<EmprestimoDTO> result = emprestimoService.emprestimoAtivo();
+    return ResponseEntity.ok(result);
+  }
+
   @PostMapping
   public ResponseEntity<EmprestimoDTO> novoEmprestimo(@RequestBody EmprestimoDTO emprestimoDTO) {
     EmprestimoDTO result = emprestimoService.novoEmprestimo(emprestimoDTO);

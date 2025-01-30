@@ -59,9 +59,16 @@ public class EmprestimoService {
     return dto;
   }
 
+  @Transactional(readOnly = true)
+  public List<EmprestimoDTO> emprestimoAtivo() {
+    List<Emprestimo> result = emprestimoRepository.findByDataDevolucaoIsNull();
+    List<EmprestimoDTO> dto = result.stream().map(EmprestimoDTO::new).toList();
+    return dto;
+  }
+
   @Transactional
   public EmprestimoDTO novoEmprestimo(@RequestBody EmprestimoDTO emprestimoDTO) {
-    emprestimoDTO.setData_emprestimo(getDate());
+    emprestimoDTO.setDataEmprestimo(getDate());
     Emprestimo result = emprestimoRepository.save(toEntity(emprestimoDTO));
     EmprestimoDTO dto = new EmprestimoDTO(result);
     return dto;
@@ -72,15 +79,14 @@ public class EmprestimoService {
     Emprestimo entity = emprestimoRepository.findById(id).get();
 
     // Verifica se produto tem data de devolução.
-    if (entity.getData_devolucao() != null) {
+    if (entity.getDataDevolucao() != null) {
       return new EmprestimoDTO(entity);
     }
 
-    entity.setData_devolucao(getDate());
+    entity.setDataDevolucao(getDate());
     Emprestimo result = emprestimoRepository.save(entity);
     EmprestimoDTO dto = new EmprestimoDTO(result);
     return dto;
-
   }
 
 }

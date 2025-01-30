@@ -21,8 +21,8 @@ public class Emprestimo {
   private Livro livro;
 
   private String usuario;
-  private String data_emprestimo;
-  private String data_devolucao;
+  private String dataEmprestimo;
+  private String dataDevolucao;
 
   public Emprestimo() {
 
@@ -32,8 +32,8 @@ public class Emprestimo {
     this.id = id;
     this.livro = livro;
     this.usuario = usuario;
-    this.data_emprestimo = data_emprestimo;
-    this.data_devolucao = data_devolucao;
+    this.dataEmprestimo = data_emprestimo;
+    this.dataDevolucao = data_devolucao;
   }
 
   public Long getId() {
@@ -60,20 +60,20 @@ public class Emprestimo {
     this.usuario = usuario;
   }
 
-  public String getData_emprestimo() {
-    return data_emprestimo;
+  public String getDataEmprestimo() {
+    return dataEmprestimo;
   }
 
-  public void setData_emprestimo(String data_emprestimo) {
-    this.data_emprestimo = data_emprestimo;
+  public void setDataEmprestimo(String data_emprestimo) {
+    this.dataEmprestimo = data_emprestimo;
   }
 
-  public String getData_devolucao() {
-    return data_devolucao;
+  public String getDataDevolucao() {
+    return dataDevolucao;
   }
 
-  public void setData_devolucao(String data_devolucao) {
-    this.data_devolucao = data_devolucao;
+  public void setDataDevolucao(String data_devolucao) {
+    this.dataDevolucao = data_devolucao;
   }
 
   @Override
