@@ -1,7 +1,6 @@
 package com.estudo.biblioteca.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
 import com.estudo.biblioteca.dtos.AutorDTO;
-import com.estudo.biblioteca.entities.Autor;
-import com.estudo.biblioteca.repositories.AutorRepository;
 import com.estudo.biblioteca.services.AutorService;
 
 @RestController
@@ -26,9 +23,6 @@ public class AutorController {
 
   @Autowired
   private AutorService autorService;
-
-  @Autowired
-  private AutorRepository autorRepository;
 
   @GetMapping
   public ResponseEntity<List<AutorDTO>> getAll() {
@@ -39,11 +33,6 @@ public class AutorController {
 
   @GetMapping(value = "/{id}")
   public ResponseEntity<?> findById(@PathVariable long id) {
-    Optional<Autor> optAutor = autorRepository.findById(id);
-    if (optAutor.isEmpty()) {
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Autor não encontrado");
-    }
-
     AutorDTO result = autorService.findById(id);
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }

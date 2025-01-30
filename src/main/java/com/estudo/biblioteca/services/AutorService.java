@@ -2,7 +2,6 @@ package com.estudo.biblioteca.services;
 
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,14 +18,8 @@ public class AutorService {
   @Autowired
   private AutorRepository autorRepository;
 
-  private Autor toEntity(AutorDTO autorDTO) {
-    Autor entity = new Autor();
-    BeanUtils.copyProperties(autorDTO, entity);
-    return entity;
-  }
-
   private Autor update(long id, AutorDTO autorDTO) {
-    Autor entity = toEntity(autorDTO);
+    Autor entity = autorDTO.toEntity();
     entity.setId(id);
     return entity;
   }
@@ -49,7 +42,7 @@ public class AutorService {
 
   @Transactional
   public AutorDTO createAutor(@RequestBody AutorDTO autorDTO) {
-    Autor entity = toEntity(autorDTO);
+    Autor entity = autorDTO.toEntity();
     Autor result = autorRepository.save(entity);
     AutorDTO dto = new AutorDTO(result);
     return dto;

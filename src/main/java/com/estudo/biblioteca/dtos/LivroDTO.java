@@ -1,5 +1,7 @@
 package com.estudo.biblioteca.dtos;
 
+import org.springframework.beans.BeanUtils;
+
 import com.estudo.biblioteca.entities.Autor;
 import com.estudo.biblioteca.entities.Livro;
 
@@ -76,6 +78,12 @@ public class LivroDTO {
     } else if (!id.equals(other.id))
       return false;
     return true;
+  }
+
+  public Livro toEntity() {
+    Livro livro = new Livro();
+    BeanUtils.copyProperties(this, livro);
+    return livro;
   }
 
 }

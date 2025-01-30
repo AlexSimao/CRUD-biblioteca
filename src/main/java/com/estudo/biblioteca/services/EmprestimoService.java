@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.estudo.biblioteca.dtos.EmprestimoDTO;
 import com.estudo.biblioteca.dtos.LivroDTO;
 import com.estudo.biblioteca.entities.Emprestimo;
-import com.estudo.biblioteca.entities.Livro;
 import com.estudo.biblioteca.repositories.EmprestimoRepository;
 
 @Service
@@ -31,17 +30,11 @@ public class EmprestimoService {
     return data;
   }
 
-  private Livro toEntity(LivroDTO livroDTO) {
-    Livro entity = new Livro();
-    BeanUtils.copyProperties(livroDTO, entity);
-    return entity;
-  }
-
   private Emprestimo toEntity(EmprestimoDTO emprestimoDTO) {
     LivroDTO livro = livroService.findById(emprestimoDTO.getLivro_id());
     Emprestimo emprestimo = new Emprestimo();
     BeanUtils.copyProperties(emprestimoDTO, emprestimo);
-    emprestimo.setLivro(toEntity(livro));
+    emprestimo.setLivro(livro.toEntity());
     return emprestimo;
   }
 

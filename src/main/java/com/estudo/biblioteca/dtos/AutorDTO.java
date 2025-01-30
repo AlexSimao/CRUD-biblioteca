@@ -35,4 +35,10 @@ public class AutorDTO {
     this.nome = nome;
   }
 
+  public Autor toEntity() {
+    Autor autor = new Autor();
+    BeanUtils.copyProperties(this, autor);
+    return autor;
+  }
+
 }

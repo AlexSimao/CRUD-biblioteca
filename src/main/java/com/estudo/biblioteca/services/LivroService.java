@@ -27,20 +27,8 @@ public class LivroService {
   @Autowired
   private AutorService autorService;
 
-  private Livro toEntity(LivroDTO livroDTO) {
-    Livro entity = new Livro();
-    BeanUtils.copyProperties(livroDTO, entity);
-    return entity;
-  }
-
-  private Autor toEntity(AutorDTO autorDTO) {
-    Autor entity = new Autor();
-    BeanUtils.copyProperties(autorDTO, entity);
-    return entity;
-  }
-
   private Livro update(Long id, LivroDTO livroDTO) {
-    Livro entity = toEntity(livroDTO);
+    Livro entity = livroDTO.toEntity();
     entity.setId(id);
     return entity;
   }
@@ -74,9 +62,9 @@ public class LivroService {
 
     LivroDTO livro = new LivroDTO();
     BeanUtils.copyProperties(livroDTO, livro);
-    livro.setAutor(toEntity(newAutor));
+    livro.setAutor(newAutor.toEntity());
 
-    Livro result = livroRepository.save(toEntity(livro));
+    Livro result = livroRepository.save(livro.toEntity());
     LivroDTO dto = new LivroDTO(result);
     return dto;
   }
