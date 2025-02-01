@@ -32,7 +32,7 @@ public class AutorController {
   }
 
   @GetMapping(value = "/{id}")
-  public ResponseEntity<?> findById(@PathVariable long id) {
+  public ResponseEntity<AutorDTO> findById(@PathVariable long id) {
     AutorDTO result = autorService.findById(id);
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
