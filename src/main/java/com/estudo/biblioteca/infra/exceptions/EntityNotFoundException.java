@@ -1,4 +1,4 @@
-package com.estudo.biblioteca.exceptions;
+package com.estudo.biblioteca.infra.exceptions;
 
 public class EntityNotFoundException extends RuntimeException {
 

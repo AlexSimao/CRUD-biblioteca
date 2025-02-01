@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.estudo.biblioteca.dtos.AutorDTO;
 import com.estudo.biblioteca.entities.Autor;
-import com.estudo.biblioteca.exceptions.EntityNotFoundException;
+import com.estudo.biblioteca.infra.exceptions.EntityNotFoundException;
 import com.estudo.biblioteca.repositories.AutorRepository;
 
 @Service
@@ -18,7 +18,14 @@ public class AutorService {
   private AutorRepository autorRepository;
 
   private Autor update(long id, AutorDTO autorDTO) {
-    Autor entity = autorDTO.toEntity();
+    if (autorDTO.getNome() == null || autorDTO.getNome().isBlank()) {
+      throw new IllegalArgumentException("Nome não pode ser vazio ou 'null': " + autorDTO.getNome());
+    }
+
+    Autor entity = autorRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Autor com id: " + id + " não encontrado."));
+
+    entity = autorDTO.toEntity();
     entity.setId(id);
     return entity;
   }
@@ -35,13 +42,18 @@ public class AutorService {
   @Transactional(readOnly = true)
   public AutorDTO findById(long id) {
     Autor result = autorRepository.findById(id)
-        .orElseThrow(() -> new EntityNotFoundException("ID Not Found: " + id));
+        .orElseThrow(() -> new EntityNotFoundException("Autor com id: " + id + " não encontrado."));
+
     AutorDTO dto = new AutorDTO(result);
     return dto;
   }
 
   @Transactional
   public AutorDTO createAutor(AutorDTO autorDTO) {
+    if (autorDTO.getNome() == null || autorDTO.getNome().isBlank()) {
+      throw new IllegalArgumentException("Nome não pode ser vazio ou 'null': " + autorDTO.getNome());
+    }
+
     Autor entity = autorDTO.toEntity();
     Autor result = autorRepository.save(entity);
     AutorDTO dto = new AutorDTO(result);
@@ -51,6 +63,7 @@ public class AutorService {
   @Transactional
   public AutorDTO updateAutor(long id, AutorDTO autorDTO) {
     Autor entity = update(id, autorDTO);
+
     Autor result = autorRepository.save(entity);
     AutorDTO dto = new AutorDTO(result);
     return dto;
@@ -58,7 +71,10 @@ public class AutorService {
 
   @Transactional
   public List<AutorDTO> deleteAutor(long id) {
-    autorRepository.deleteById(id);
+    Autor entity = autorRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Autor com id: " + id + " não encontrado."));
+    autorRepository.delete(entity);
+
     List<Autor> result = autorRepository.findAll();
     List<AutorDTO> dto = result.stream().map(AutorDTO::new).toList();
     return dto;
