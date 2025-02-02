@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.estudo.biblioteca.dtos.LivroDTO;
+import com.estudo.biblioteca.dtos.LivroRequestDTO;
 import com.estudo.biblioteca.services.LivroService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,14 +39,15 @@ public class LivroController {
   }
 
   @PostMapping()
-  public ResponseEntity<LivroDTO> createLivro(@RequestBody LivroDTO livroDTO) {
-    LivroDTO result = livroService.createLivro(livroDTO);
+  public ResponseEntity<LivroDTO> createLivro(@RequestBody LivroRequestDTO livroRequestDTO) {
+    LivroDTO result = livroService.createLivro(livroRequestDTO);
     return ResponseEntity.status(HttpStatus.CREATED).body(result);
   }
 
   @PutMapping(value = "/{id}")
-  public ResponseEntity<LivroDTO> updateLivro(@PathVariable Long id, @RequestBody LivroDTO livroDTO) {
-    LivroDTO result = livroService.updateLivro(id, livroDTO);
+  public ResponseEntity<LivroDTO> updateLivro(@PathVariable Long id,
+      @RequestBody LivroRequestDTO livroRequestDTO) {
+    LivroDTO result = livroService.updateLivro(id, livroRequestDTO);
     return ResponseEntity.ok(result);
   }
 

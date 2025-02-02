@@ -2,14 +2,14 @@ package com.estudo.biblioteca.dtos;
 
 import java.time.Instant;
 
-public class ResponseErrorDTO {
+public class ResponseExceptionErrorDTO {
   private Instant timestamp;
   private Integer status;
   private String error;
   private String message;
   private String path;
 
-  public ResponseErrorDTO() {
+  public ResponseExceptionErrorDTO() {
 
   }
 
