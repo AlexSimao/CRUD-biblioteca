@@ -116,13 +116,11 @@ public class LivroService {
 
   @Transactional
   public List<LivroDTO> deleteLivro(long id) {
-    // Verificar se entidade Livro id possui referencia na tabela Emprestimo.
+    // Verifica se entidade Livro id ^^^^ possui referencia na tabela Emprestimo.
     // Se sim, retorna uma exceção.
-    emprestimoRepository.findAll().stream().forEach(e -> {
-      if (e.getLivro().getId() == id) {
-        throw new ForeignKeyReferenceException("Livro com id: " + id + " possui referencia em Emprestimo.");
-      }
-    });
+    if (emprestimoRepository.countByLivroId(id) > 0) {
+      throw new ForeignKeyReferenceException("Livro com id: " + id + " possui referencia em Emprestimo.");
+    }
 
     Livro entity = livroRepository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException("Livro com id: " + id + " não encontrado."));
