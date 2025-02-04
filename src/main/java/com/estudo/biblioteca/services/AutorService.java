@@ -9,13 +9,18 @@ import org.springframework.transaction.annotation.Transactional;
 import com.estudo.biblioteca.dtos.AutorDTO;
 import com.estudo.biblioteca.entities.Autor;
 import com.estudo.biblioteca.infra.exceptions.EntityNotFoundException;
+import com.estudo.biblioteca.infra.exceptions.ForeignKeyReferenceException;
 import com.estudo.biblioteca.repositories.AutorRepository;
+import com.estudo.biblioteca.repositories.LivroRepository;
 
 @Service
 public class AutorService {
 
   @Autowired
   private AutorRepository autorRepository;
+
+  @Autowired
+  private LivroRepository livroRepository;
 
   private Autor update(long id, AutorDTO autorDTO) {
     if (autorDTO.getNome() == null || autorDTO.getNome().isBlank()) {
@@ -71,8 +76,14 @@ public class AutorService {
 
   @Transactional
   public List<AutorDTO> deleteAutor(long id) {
+    // Verifica se entidade Autor id ^^^^ possui referencia na tabela Livro.
+    // Se sim, retorna uma exceção.
+    if (livroRepository.countByAutorId(id) > 0) {
+      throw new ForeignKeyReferenceException("Autor com id: " + id + " possui referencia em Livro.");
+    }
     Autor entity = autorRepository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException("Autor com id: " + id + " não encontrado."));
+
     autorRepository.delete(entity);
 
     List<Autor> result = autorRepository.findAll();
