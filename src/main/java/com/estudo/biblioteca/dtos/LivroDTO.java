@@ -1,11 +1,16 @@
 package com.estudo.biblioteca.dtos;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.hateoas.RepresentationModel;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+import com.estudo.biblioteca.controllers.LivroController;
 import com.estudo.biblioteca.entities.Autor;
 import com.estudo.biblioteca.entities.Livro;
 
-public class LivroDTO {
+public class LivroDTO extends RepresentationModel<LivroDTO> {
 
   private Long id;
   private String titulo;
@@ -21,6 +26,9 @@ public class LivroDTO {
     this.titulo = entity.getTitulo();
     this.autor = entity.getAutor();
     this.ano_publicacao = entity.getAno_publicacao();
+
+    // Adicionando link HATEOAS
+    add(linkTo(methodOn(LivroController.class).findLivrosById(id)).withSelfRel());
   }
 
   public Long getId() {
@@ -53,31 +61,6 @@ public class LivroDTO {
 
   public void setAno_publicacao(String ano_publicacao) {
     this.ano_publicacao = ano_publicacao;
-  }
-
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((id == null) ? 0 : id.hashCode());
-    return result;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    LivroDTO other = (LivroDTO) obj;
-    if (id == null) {
-      if (other.id != null)
-        return false;
-    } else if (!id.equals(other.id))
-      return false;
-    return true;
   }
 
   public Livro toEntity() {

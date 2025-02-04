@@ -2,10 +2,15 @@ package com.estudo.biblioteca.services;
 
 import java.util.List;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.estudo.biblioteca.controllers.AutorController;
 import com.estudo.biblioteca.dtos.AutorDTO;
 import com.estudo.biblioteca.entities.Autor;
 import com.estudo.biblioteca.infra.exceptions.EntityNotFoundException;
@@ -35,6 +40,13 @@ public class AutorService {
     return entity;
   }
 
+  // Adicionando link HATEOAS
+  private void addLinkAll(AutorDTO dto) {
+    Link linkAll = linkTo(methodOn(AutorController.class).getAll()).withRel("all");
+    // dto.removeLinks();
+    dto.add(linkAll);
+  }
+
   @Transactional(readOnly = true)
   public List<AutorDTO> getAll() {
     List<Autor> result = autorRepository.findAll();
@@ -50,6 +62,7 @@ public class AutorService {
         .orElseThrow(() -> new EntityNotFoundException("Autor com id: " + id + " não encontrado."));
 
     AutorDTO dto = new AutorDTO(result);
+    addLinkAll(dto);
     return dto;
   }
 
@@ -62,6 +75,7 @@ public class AutorService {
     Autor entity = autorDTO.toEntity();
     Autor result = autorRepository.save(entity);
     AutorDTO dto = new AutorDTO(result);
+    addLinkAll(dto);
     return dto;
   }
 
@@ -71,6 +85,7 @@ public class AutorService {
 
     Autor result = autorRepository.save(entity);
     AutorDTO dto = new AutorDTO(result);
+    addLinkAll(dto);
     return dto;
   }
 

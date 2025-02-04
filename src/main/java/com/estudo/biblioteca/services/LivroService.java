@@ -4,9 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+import com.estudo.biblioteca.controllers.LivroController;
 import com.estudo.biblioteca.dtos.AutorDTO;
 import com.estudo.biblioteca.dtos.LivroDTO;
 import com.estudo.biblioteca.dtos.LivroRequestDTO;
@@ -73,6 +78,13 @@ public class LivroService {
     return livro;
   }
 
+  // Adicionando link HATEOAS
+  private void addLinkAll(LivroDTO dto) {
+    Link linkAll = linkTo(methodOn(LivroController.class).findAllLivros()).withRel("all");
+    // dto.removeLinks();
+    dto.add(linkAll);
+  }
+
   @Transactional(readOnly = true)
   public List<LivroDTO> findAll() {
     List<Livro> result = livroRepository.findAll();
@@ -86,6 +98,7 @@ public class LivroService {
         .orElseThrow(() -> new EntityNotFoundException("Livro com id: " + id + " não encontrado."));
 
     LivroDTO dto = new LivroDTO(result);
+    addLinkAll(dto);
     return dto;
   }
 
@@ -103,6 +116,7 @@ public class LivroService {
     LivroDTO livro = livroRequestToLivroDTO(livroRequestDTO);
     Livro result = livroRepository.save(livro.toEntity());
     LivroDTO dto = new LivroDTO(result);
+    addLinkAll(dto);
     return dto;
   }
 
@@ -111,6 +125,7 @@ public class LivroService {
     Livro updatedLivro = update(id, livroRequestDTO);
     Livro result = livroRepository.save(updatedLivro);
     LivroDTO dto = new LivroDTO(result);
+    addLinkAll(dto);
     return dto;
   }
 
