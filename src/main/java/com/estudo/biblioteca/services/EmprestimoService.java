@@ -8,13 +8,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.estudo.biblioteca.dtos.EmprestimoDTO;
 import com.estudo.biblioteca.dtos.EmprestimoRequestDTO;
 import com.estudo.biblioteca.dtos.LivroDTO;
 import com.estudo.biblioteca.entities.Emprestimo;
+import com.estudo.biblioteca.infra.exceptions.EntityNotFoundException;
 import com.estudo.biblioteca.repositories.EmprestimoRepository;
 
 @Service
@@ -47,8 +46,10 @@ public class EmprestimoService {
   }
 
   @Transactional(readOnly = true)
-  public EmprestimoDTO findById(@PathVariable Long id) {
-    Emprestimo result = emprestimoRepository.findById(id).get();
+  public EmprestimoDTO findById(Long id) {
+    Emprestimo result = emprestimoRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Não Existe emprestimo com id: " + id));
+
     EmprestimoDTO dto = new EmprestimoDTO(result);
     return dto;
   }
@@ -61,7 +62,7 @@ public class EmprestimoService {
   }
 
   @Transactional
-  public EmprestimoDTO novoEmprestimo(@RequestBody EmprestimoRequestDTO emprestimoRequestDTO) {
+  public EmprestimoDTO novoEmprestimo(EmprestimoRequestDTO emprestimoRequestDTO) {
     emprestimoRequestDTO.setDataEmprestimo(getDate());
     Emprestimo result = emprestimoRepository.save(toEntity(emprestimoRequestDTO));
     EmprestimoDTO dto = new EmprestimoDTO(result);
@@ -69,8 +70,9 @@ public class EmprestimoService {
   }
 
   @Transactional
-  public EmprestimoDTO devolucaoDeEmprestimo(@PathVariable Long id) {
-    Emprestimo entity = emprestimoRepository.findById(id).get();
+  public EmprestimoDTO devolucaoDeEmprestimo(Long id) {
+    Emprestimo entity = emprestimoRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Não Existe emprestimo com id: " + id));
 
     // Verifica se produto tem data de devolução.
     if (entity.getDataDevolucao() != null) {
