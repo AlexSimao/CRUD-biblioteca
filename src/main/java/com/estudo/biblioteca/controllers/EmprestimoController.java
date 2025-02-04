@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.estudo.biblioteca.dtos.EmprestimoDTO;
+import com.estudo.biblioteca.dtos.EmprestimoRequestDTO;
 import com.estudo.biblioteca.services.EmprestimoService;
 
 import java.util.List;
@@ -43,7 +44,7 @@ public class EmprestimoController {
   }
 
   @PostMapping
-  public ResponseEntity<EmprestimoDTO> novoEmprestimo(@RequestBody EmprestimoDTO emprestimoDTO) {
+  public ResponseEntity<EmprestimoDTO> novoEmprestimo(@RequestBody EmprestimoRequestDTO emprestimoDTO) {
     EmprestimoDTO result = emprestimoService.novoEmprestimo(emprestimoDTO);
     return ResponseEntity.status(HttpStatus.CREATED).body(result);
   }

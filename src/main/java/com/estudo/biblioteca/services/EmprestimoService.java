@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.estudo.biblioteca.dtos.EmprestimoDTO;
+import com.estudo.biblioteca.dtos.EmprestimoRequestDTO;
 import com.estudo.biblioteca.dtos.LivroDTO;
 import com.estudo.biblioteca.entities.Emprestimo;
 import com.estudo.biblioteca.repositories.EmprestimoRepository;
@@ -30,10 +31,10 @@ public class EmprestimoService {
     return data;
   }
 
-  private Emprestimo toEntity(EmprestimoDTO emprestimoDTO) {
-    LivroDTO livro = livroService.findById(emprestimoDTO.getLivro_id());
+  private Emprestimo toEntity(EmprestimoRequestDTO emprestimoRequestDTO) {
+    LivroDTO livro = livroService.findById(emprestimoRequestDTO.getLivro_id());
     Emprestimo emprestimo = new Emprestimo();
-    BeanUtils.copyProperties(emprestimoDTO, emprestimo);
+    BeanUtils.copyProperties(emprestimoRequestDTO, emprestimo);
     emprestimo.setLivro(livro.toEntity());
     return emprestimo;
   }
@@ -60,9 +61,9 @@ public class EmprestimoService {
   }
 
   @Transactional
-  public EmprestimoDTO novoEmprestimo(@RequestBody EmprestimoDTO emprestimoDTO) {
-    emprestimoDTO.setDataEmprestimo(getDate());
-    Emprestimo result = emprestimoRepository.save(toEntity(emprestimoDTO));
+  public EmprestimoDTO novoEmprestimo(@RequestBody EmprestimoRequestDTO emprestimoRequestDTO) {
+    emprestimoRequestDTO.setDataEmprestimo(getDate());
+    Emprestimo result = emprestimoRepository.save(toEntity(emprestimoRequestDTO));
     EmprestimoDTO dto = new EmprestimoDTO(result);
     return dto;
   }

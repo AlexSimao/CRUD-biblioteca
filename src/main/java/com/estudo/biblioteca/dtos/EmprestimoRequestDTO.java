@@ -1,23 +1,22 @@
 package com.estudo.biblioteca.dtos;
 
 import com.estudo.biblioteca.entities.Emprestimo;
-import com.estudo.biblioteca.entities.Livro;
 
-public class EmprestimoDTO {
+public class EmprestimoRequestDTO {
 
   private Long id;
-  private Livro livro;
+  private Long livro_id;
   private String usuario;
   private String dataEmprestimo;
   private String dataDevolucao;
 
-  public EmprestimoDTO() {
+  public EmprestimoRequestDTO() {
 
   }
 
-  public EmprestimoDTO(Emprestimo entity) {
+  public EmprestimoRequestDTO(Emprestimo entity) {
     this.id = entity.getId();
-    this.livro = entity.getLivro();
+    this.livro_id = entity.getLivro().getId();
     this.usuario = entity.getUsuario();
     this.dataEmprestimo = entity.getDataEmprestimo();
     this.dataDevolucao = entity.getDataDevolucao();
@@ -31,12 +30,12 @@ public class EmprestimoDTO {
     this.id = id;
   }
 
-  public Livro getLivro() {
-    return livro;
+  public Long getLivro_id() {
+    return livro_id;
   }
 
-  public void setLivro(Livro livro) {
-    this.livro = livro;
+  public void setLivro_id(Long livro_id) {
+    this.livro_id = livro_id;
   }
 
   public String getUsuario() {
