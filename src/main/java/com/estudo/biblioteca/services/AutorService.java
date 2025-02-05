@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.estudo.biblioteca.controllers.AutorController;
 import com.estudo.biblioteca.dtos.AutorDTO;
+import com.estudo.biblioteca.dtos.LivroDTO;
 import com.estudo.biblioteca.entities.Autor;
 import com.estudo.biblioteca.infra.exceptions.EntityNotFoundException;
 import com.estudo.biblioteca.infra.exceptions.ForeignKeyReferenceException;
@@ -63,6 +64,15 @@ public class AutorService {
 
     AutorDTO dto = new AutorDTO(result);
     addLinkAll(dto);
+    return dto;
+  }
+
+  @Transactional(readOnly = true)
+  public List<LivroDTO> findLivrosByAutor(long id) {
+    Autor autor = autorRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Autor com id: " + id + " não encontrado."));
+
+    List<LivroDTO> dto = livroRepository.findByAutor(autor).stream().map(LivroDTO::new).toList();
     return dto;
   }
 

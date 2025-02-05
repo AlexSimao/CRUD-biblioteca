@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
 import com.estudo.biblioteca.dtos.AutorDTO;
+import com.estudo.biblioteca.dtos.LivroDTO;
 import com.estudo.biblioteca.services.AutorService;
 
 @RestController
@@ -34,6 +35,12 @@ public class AutorController {
   @GetMapping(value = "/{id}")
   public ResponseEntity<AutorDTO> findById(@PathVariable long id) {
     AutorDTO result = autorService.findById(id);
+    return ResponseEntity.status(HttpStatus.OK).body(result);
+  }
+
+  @GetMapping(value = "/{id}/livro")
+  public ResponseEntity<List<LivroDTO>> findLivrosByAutor(@PathVariable long id) {
+    List<LivroDTO> result = autorService.findLivrosByAutor(id);
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 
