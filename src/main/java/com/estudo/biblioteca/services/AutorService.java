@@ -67,6 +67,13 @@ public class AutorService {
   }
 
   @Transactional(readOnly = true)
+  public Page<AutorDTO> findByParamName(String nome, Pageable pageable) {
+    Page<Autor> result = autorRepository.findByParamName(nome, pageable);
+    Page<AutorDTO> dto = result.map(AutorDTO::new);
+    return dto;
+  }
+
+  @Transactional(readOnly = true)
   public AutorDTO findById(long id) {
     Autor result = autorRepository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException("Autor com id: " + id + " não encontrado."));

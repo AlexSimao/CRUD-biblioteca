@@ -102,6 +102,13 @@ public class LivroService {
   }
 
   @Transactional(readOnly = true)
+  public Page<LivroDTO> findByParamTitle(String titulo, Pageable pageable) {
+    Page<Livro> result = livroRepository.findByParamTitle(titulo, pageable);
+    Page<LivroDTO> dto = result.map(LivroDTO::new);
+    return dto;
+  }
+
+  @Transactional(readOnly = true)
   public LivroDTO findById(long id) {
     Livro result = livroRepository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException("Livro com id: " + id + " não encontrado."));

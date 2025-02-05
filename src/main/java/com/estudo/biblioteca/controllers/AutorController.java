@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +37,12 @@ public class AutorController {
   @GetMapping("/page")
   public ResponseEntity<Page<AutorDTO>> getAllPageable(Pageable pageable) {
     Page<AutorDTO> result = autorService.getAllPageable(pageable);
+    return ResponseEntity.status(HttpStatus.OK).body(result);
+  }
+
+  @GetMapping("/page/nome")
+  public ResponseEntity<Page<AutorDTO>> findByParamName(@RequestParam String nome, Pageable pageable) {
+    Page<AutorDTO> result = autorService.findByParamName(nome, pageable);
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 

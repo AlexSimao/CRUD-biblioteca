@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.estudo.biblioteca.dtos.LivroDTO;
@@ -37,6 +38,12 @@ public class LivroController {
   @GetMapping("/page")
   public ResponseEntity<Page<LivroDTO>> findAllPageable(Pageable pageable) {
     Page<LivroDTO> result = livroService.findAllPageable(pageable);
+    return ResponseEntity.ok(result);
+  }
+
+  @GetMapping("/page/titulo")
+  public ResponseEntity<Page<LivroDTO>> findByParamTitle(@RequestParam String titulo, Pageable pageable) {
+    Page<LivroDTO> result = livroService.findByParamTitle(titulo, pageable);
     return ResponseEntity.ok(result);
   }
 
