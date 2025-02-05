@@ -10,6 +10,8 @@ import com.estudo.biblioteca.services.EmprestimoService;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +30,12 @@ public class EmprestimoController {
   @GetMapping
   public ResponseEntity<List<EmprestimoDTO>> findAll() {
     List<EmprestimoDTO> result = emprestimoService.findAll();
+    return ResponseEntity.ok(result);
+  }
+
+  @GetMapping("/page")
+  public ResponseEntity<Page<EmprestimoDTO>> findAllPageable(Pageable pageable) {
+    Page<EmprestimoDTO> result = emprestimoService.findAllPageable(pageable);
     return ResponseEntity.ok(result);
   }
 

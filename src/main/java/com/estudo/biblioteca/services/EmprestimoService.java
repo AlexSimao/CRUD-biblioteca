@@ -9,6 +9,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,6 +56,13 @@ public class EmprestimoService {
   public List<EmprestimoDTO> findAll() {
     List<Emprestimo> result = emprestimoRepository.findAll();
     List<EmprestimoDTO> dto = result.stream().map(EmprestimoDTO::new).toList();
+    return dto;
+  }
+
+  @Transactional(readOnly = true)
+  public Page<EmprestimoDTO> findAllPageable(Pageable pageable) {
+    Page<Emprestimo> result = emprestimoRepository.findAll(pageable);
+    Page<EmprestimoDTO> dto = result.map(EmprestimoDTO::new);
     return dto;
   }
 

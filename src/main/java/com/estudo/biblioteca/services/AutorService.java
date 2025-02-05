@@ -6,6 +6,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,6 +56,13 @@ public class AutorService {
     // List<AutorDTO> dto = result.stream().map(autor -> new
     // AutorDTO(autor)).toList();
     List<AutorDTO> dto = result.stream().map(AutorDTO::new).toList();
+    return dto;
+  }
+
+  @Transactional(readOnly = true)
+  public Page<AutorDTO> getAllPageable(Pageable pageable) {
+    Page<Autor> result = autorRepository.findAll(pageable);
+    Page<AutorDTO> dto = result.map(AutorDTO::new);
     return dto;
   }
 

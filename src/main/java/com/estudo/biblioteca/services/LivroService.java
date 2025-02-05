@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -89,6 +91,13 @@ public class LivroService {
   public List<LivroDTO> findAll() {
     List<Livro> result = livroRepository.findAll();
     List<LivroDTO> dto = result.stream().map(LivroDTO::new).toList();
+    return dto;
+  }
+
+  @Transactional(readOnly = true)
+  public Page<LivroDTO> findAllPageable(Pageable pageable) {
+    Page<Livro> result = livroRepository.findAll(pageable);
+    Page<LivroDTO> dto = result.map(LivroDTO::new);
     return dto;
   }
 

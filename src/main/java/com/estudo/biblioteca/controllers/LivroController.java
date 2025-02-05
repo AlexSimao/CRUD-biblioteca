@@ -3,6 +3,8 @@ package com.estudo.biblioteca.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +31,12 @@ public class LivroController {
   @GetMapping()
   public ResponseEntity<List<LivroDTO>> findAllLivros() {
     List<LivroDTO> result = livroService.findAll();
+    return ResponseEntity.ok(result);
+  }
+
+  @GetMapping("/page")
+  public ResponseEntity<Page<LivroDTO>> findAllPageable(Pageable pageable) {
+    Page<LivroDTO> result = livroService.findAllPageable(pageable);
     return ResponseEntity.ok(result);
   }
 
