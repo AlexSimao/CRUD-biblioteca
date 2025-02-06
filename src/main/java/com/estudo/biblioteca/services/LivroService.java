@@ -103,7 +103,7 @@ public class LivroService {
 
   @Transactional(readOnly = true)
   public Page<LivroDTO> findByParamTitle(String titulo, Pageable pageable) {
-    Page<Livro> result = livroRepository.findByParamTitle(titulo, pageable);
+    Page<Livro> result = livroRepository.findByTituloContainingIgnoreCase(titulo, pageable);
     Page<LivroDTO> dto = result.map(LivroDTO::new);
     return dto;
   }

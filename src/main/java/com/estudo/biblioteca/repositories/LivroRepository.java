@@ -12,14 +12,15 @@ import java.util.List;
 
 public interface LivroRepository extends JpaRepository<Livro, Long> {
 
-  @Query("SELECT COUNT(e) FROM Livro e WHERE e.autor.id = :id")
   // Verifica se existe autor com id determinado.
+  @Query("SELECT COUNT(e) FROM Livro e WHERE e.autor.id = :id")
   Long countByAutorId(@Param("id") Long id);
 
   // Lista todos os Livros de um Autor determinado.
   List<Livro> findByAutor(Autor autor);
 
   // Procura na base de dados todos que contenham os titulos semelhantes.
-  @Query("SELECT obj FROM Livro obj WHERE LOWER(obj.titulo) LIKE LOWER(CONCAT('%', :titulo, '%'))")
-  Page<Livro> findByParamTitle(String titulo, Pageable pageable);
+  // @Query("SELECT obj FROM Livro obj WHERE LOWER(obj.titulo) LIKE
+  // LOWER(CONCAT('%', :titulo, '%'))")
+  Page<Livro> findByTituloContainingIgnoreCase(String titulo, Pageable pageable);
 }
