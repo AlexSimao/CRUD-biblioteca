@@ -15,9 +15,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.test.context.ActiveProfiles;
 
 import com.estudo.biblioteca.dtos.EmprestimoDTO;
 import com.estudo.biblioteca.dtos.EmprestimoRequestDTO;
@@ -27,6 +30,9 @@ import com.estudo.biblioteca.entities.Livro;
 import com.estudo.biblioteca.infra.exceptions.EntityNotFoundException;
 import com.estudo.biblioteca.repositories.EmprestimoRepository;
 
+@AutoConfigureMockMvc
+@SpringBootTest
+@ActiveProfiles("test")
 public class EmprestimoServiceTest {
 
   @Mock
