@@ -38,7 +38,7 @@ public class LivroRequestDTO {
     return autorNome;
   }
 
-  public void setAutor(String autor) {
+  public void setAutorNome(String autor) {
     this.autorNome = autor;
   }
 
